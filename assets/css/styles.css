@@ -479,6 +479,134 @@ section { padding: 3.5rem 0; }
   background: var(--color-primary-dark);
 }
 
+
+/* Programs carousel */
+.program-carousel {
+  position: relative;
+  margin-top: 0.5rem;
+}
+.carousel-viewport {
+  position: relative;
+  display: block;
+}
+.carousel-track {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 0.5rem 2.75rem 1rem;
+  outline: none;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track:focus-visible {
+  box-shadow: 0 0 0 3px rgba(45, 90, 69, 0.35);
+  border-radius: var(--radius);
+}
+.program-carousel .card {
+  flex: 0 0 calc(100% - 3rem);
+  width: calc(100% - 3rem);
+  max-width: 22rem;
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.carousel-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+.carousel-btn:focus-visible {
+  outline: 3px solid rgba(196, 120, 58, 0.55);
+  outline-offset: 2px;
+}
+.carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.carousel-btn.prev { left: 0; }
+.carousel-btn.next { right: 0; }
+.carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+}
+.carousel-dots {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: center;
+}
+.carousel-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+.carousel-dot[aria-selected="true"],
+.carousel-dot.is-active {
+  background: var(--color-primary);
+  transform: scale(1.2);
+}
+.carousel-dot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+.carousel-counter {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+}
+@media (min-width: 640px) {
+  .program-carousel .card {
+    flex-basis: calc(50% - 2.2rem);
+    width: calc(50% - 2.2rem);
+    max-width: none;
+  }
+}
+@media (min-width: 960px) {
+  .program-carousel .card {
+    flex-basis: calc(33.333% - 1.6rem);
+    width: calc(33.333% - 1.6rem);
+  }
+}
+
 /* Soften program card amounts on home */
 .card-amount-quiet {
   font-size: 0.85rem;
