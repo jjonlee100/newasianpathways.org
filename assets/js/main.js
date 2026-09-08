@@ -9,39 +9,57 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var LANG_KEY = "nap-lang";
+
+  function getSiteBase() {
+    var host = window.location.hostname || "";
+    var path = window.location.pathname || "/";
+    if (/\.github\.io$/i.test(host)) {
+      var seg = path.split("/").filter(Boolean)[0];
+      return seg ? "/" + seg + "/" : "/";
+    }
+    return "/";
+  }
+
+  function stripLangPrefix(relPath) {
+    return relPath.replace(/^(ko|zh)\//, "");
+  }
+
+  function normalizePagePath(pathname, base) {
+    var rel = pathname;
+    if (base !== "/" && rel.indexOf(base) === 0) {
+      rel = rel.slice(base.length - 1); // keep leading /
+    }
+    rel = rel.replace(/^\/+/, "");
+    rel = stripLangPrefix(rel);
+    if (!rel || rel === "index.html") {
+      return "";
+    }
+    return rel;
+  }
+
+  function urlForLang(lang, pagePath, base) {
+    var prefix = lang === "en" ? "" : lang + "/";
+    if (!pagePath) {
+      return base + prefix;
+    }
+    return base + prefix + pagePath;
+  }
+
+  var base = getSiteBase();
   var switcher = document.querySelector(".lang-switcher");
   if (switcher) {
     switcher.querySelectorAll("a[data-lang]").forEach(function (link) {
-      link.addEventListener("click", function () {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        var lang = link.getAttribute("data-lang") || "en";
         try {
-          localStorage.setItem(LANG_KEY, link.getAttribute("data-lang"));
-        } catch (e) { /* private mode */ }
+          localStorage.setItem(LANG_KEY, lang);
+        } catch (err) { /* private mode */ }
+        var pagePath = normalizePagePath(window.location.pathname || "/", base);
+        window.location.assign(urlForLang(lang, pagePath, base));
       });
     });
   }
 
-  // Soft preference: if landing on English home with a saved non-EN preference,
-  // redirect once per session to the preferred language home (opt-in UX).
-  try {
-    var preferred = localStorage.getItem(LANG_KEY);
-    var path = window.location.pathname || "";
-    var isEnHome =
-      /(?:^|\/)(?:index\.html)?$/.test(path.replace(/\/+$/, "/") ) &&
-      path.indexOf("/ko/") === -1 &&
-      path.indexOf("/zh/") === -1;
-    // More reliable: check html[lang] and a data attribute on body
-    var htmlLang = (document.documentElement.getAttribute("lang") || "en").toLowerCase();
-    var isRootHome = document.body && document.body.getAttribute("data-page") === "home";
-    var alreadyRedirected = sessionStorage.getItem("nap-lang-redirected");
-    if (
-      isRootHome &&
-      htmlLang.indexOf("en") === 0 &&
-      (preferred === "ko" || preferred === "zh") &&
-      !alreadyRedirected
-    ) {
-      sessionStorage.setItem("nap-lang-redirected", "1");
-      var base = document.body.getAttribute("data-base") || "";
-      window.location.replace(base + preferred + "/index.html");
-    }
-  } catch (e) { /* ignore */ }
+  // Soft preference removed: it fought manual language switching on GitHub Pages.
 });
