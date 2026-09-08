@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html class="notranslate" translate="no" lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>New Asian Pathways — 제한 지역의 토착 지도자를 세우다</title>
   <meta name="description" content="New Asian Pathways(NAP)는 아시아 제한 지역에서 현지 교회를 지속하도록 토착 지도자를 세웁니다. 이미 현장에서 섬기는 현지 리더를 뒤에서 응원하고 훈련·자원을 제공합니다. 501(c)(3) EIN 93-4138449.">
@@ -22,7 +23,7 @@
   <link rel="alternate" hreflang="zh-Hans" href="https://jjonlee100.github.io/newasianpathways.org/zh/">
   <link rel="stylesheet" href="../assets/css/styles.css">
 </head>
-<body data-page="home" data-base="../">
+<body class="notranslate" data-page="home" data-base="../">
   <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="index.html">New Asian <span>Pathways</span></a>
@@ -109,7 +110,11 @@
         <h2>현지 리더를 뒷받침하는 사역</h2>
         <p>각 사역 페이지에 짧은 소개가 있고, 자세한 영문 설명과 예산은 영문 페이지에서 볼 수 있습니다.</p>
       </div>
-      <div class="card-grid">
+      <div class="program-carousel" data-carousel>
+        <button type="button" class="carousel-btn prev" aria-label="이전 사역">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div class="carousel-track" tabindex="0">
         <article class="card">
           <img src="../assets/images/mk-education.jpg" alt="">
           <div class="card-body">
@@ -166,6 +171,15 @@
             <a class="btn btn-secondary" href="micro-business.html">자세히</a>
           </div>
         </article>
+      
+        </div>
+        <button type="button" class="carousel-btn next" aria-label="다음 사역">
+          <span aria-hidden="true">›</span>
+        </button>
+        <div class="carousel-footer">
+          <div class="carousel-dots" role="tablist" aria-label="사역 슬라이드"></div>
+          <p class="carousel-counter" aria-live="polite"><span data-carousel-current>1</span> / <span data-carousel-total>7</span></p>
+        </div>
       </div>
     </div>
   </section>

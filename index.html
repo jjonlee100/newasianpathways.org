@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="notranslate" translate="no" lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>New Asian Pathways — Equipping Indigenous Leaders in Restricted Regions</title>
   <meta name="description" content="New Asian Pathways equips indigenous leaders to sustain the local church in restricted regions of Asia. We come alongside national leaders with training, tools, and backing. 501(c)(3) EIN 93-4138449.">
@@ -21,7 +22,7 @@
   <link rel="alternate" hreflang="zh-Hans" href="https://jjonlee100.github.io/newasianpathways.org/zh/">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body data-page="home" data-base="">
+<body class="notranslate" data-page="home" data-base="">
   <header class="site-header">
     <div class="container header-inner">
       <a class="logo" href="index.html">New Asian <span>Pathways</span></a>
@@ -126,7 +127,11 @@
         <h2>Programs That Back Local Leaders</h2>
         <p>Practical ways we equip indigenous partners. Budget details live on each program page—after the story.</p>
       </div>
-      <div class="card-grid">
+      <div class="program-carousel" data-carousel>
+        <button type="button" class="carousel-btn prev" aria-label="Previous programs">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div class="carousel-track" tabindex="0">
         <article class="card">
           <img src="assets/images/mk-education.jpg" alt="Education support">
           <div class="card-body">
@@ -183,6 +188,15 @@
             <a class="btn btn-secondary" href="micro-business.html">Read More</a>
           </div>
         </article>
+      
+        </div>
+        <button type="button" class="carousel-btn next" aria-label="Next programs">
+          <span aria-hidden="true">›</span>
+        </button>
+        <div class="carousel-footer">
+          <div class="carousel-dots" role="tablist" aria-label="Program slides"></div>
+          <p class="carousel-counter" aria-live="polite"><span data-carousel-current>1</span> / <span data-carousel-total>7</span></p>
+        </div>
       </div>
     </div>
   </section>
