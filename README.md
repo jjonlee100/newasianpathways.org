@@ -1,93 +1,42 @@
 # New Asian Pathways
 
-Static website for [New Asian Pathways](https://newasianpathways.org/), a 501(c)(3) nonprofit (EIN 93-4138449) supporting the persecuted church in Asia.
+Static website for [New Asian Pathways](https://jjonlee100.github.io/newasianpathways.org/), a 501(c)(3) nonprofit (EIN 93-4138449) equipping indigenous leaders to sustain the local church in restricted regions of Asia.
 
-**Hero:** Support the Persecuted Church in Asia to reach the World
+**Positioning:** Equipping indigenous leaders to sustain the local church in restricted regions
 
 **Donate:** [Tithely give form](https://give.tithe.ly/?formId=4e3604e2-ff67-4aeb-99ef-311428aea7fa)
 
 ## Site structure
 
-| File | Description |
+| Path | Description |
 |------|-------------|
-| `index.html` | Home — hero, mission, distinctives overview, budget summary, funding cards, contact |
-| `about.html` | Full mission + ministry distinctives |
-| `mk-education-support.html` | MK Education Support ($200k) |
-| `training-center-support.html` | Training Center Support ($150k) |
-| `digital-training-support.html` | Digital Training Support ($145k) |
-| `family-camps.html` | Family / Children / Youth Camps ($200k) |
-| `conferences.html` | Conferences & Retreats ($240k) |
-| `agency-support.html` | Agency Support ($250k) |
-| `micro-business.html` | Micro-Business for Church Planters ($180k) |
-| `CNAME` | Custom domain: `newasianpathways.org` |
-| `assets/` | CSS, JS, and locally hosted images |
+| `index.html` / `about.html` | English Home + About (primary) |
+| `*-support.html`, `family-camps.html`, `conferences.html`, `micro-business.html` | English program pages (story + budget) |
+| `ko/` | Korean Home, About, and short program summaries |
+| `zh/` | Simplified Chinese Home, About, and short program summaries |
+| `assets/` | Shared CSS, JS, images |
+| `source/` | Source messaging (e.g. About PDF) |
 
-Plain HTML + shared CSS (+ minimal nav JS). No build step.
+Plain HTML + shared CSS + minimal nav/language JS. No build step.
 
-## GitHub Pages setup
+## Languages
 
-This repo is configured for **GitHub Pages** from the **`main`** branch, **`/` (root)**.
+- Default English at repo root
+- `ko/` and `zh/` mirrors for Home + About (full plain-language translations) and program short summaries linking to English for full detail
+- Header language switcher (EN / 한국어 / 中文) with `localStorage` preference (`nap-lang`)
 
-1. In the repo: **Settings → Pages**.
-2. Source: **Deploy from a branch**.
-3. Branch: **`main`** / folder: **`/` (root)**.
-4. Custom domain: **`newasianpathways.org`** (the `CNAME` file in the repo root already contains this hostname).
-5. After DNS propagates, enable **Enforce HTTPS** in Pages settings.
+## GitHub Pages
 
-Public URLs once live:
+Deploy from **`main`** / **`/` (root)**.
 
-- GitHub Pages default: `https://jjonlee100.github.io/newasianpathways.org/`
-- Custom domain: `https://newasianpathways.org/` (and typically `https://www.newasianpathways.org/` if you add the www records below)
+Preview: `https://jjonlee100.github.io/newasianpathways.org/`
 
-## GoDaddy DNS (apex + www → GitHub Pages)
-
-In GoDaddy DNS for `newasianpathways.org`, set (or replace conflicting A/CNAME/forwarding rules):
-
-### Apex (root) — `newasianpathways.org`
-
-GitHub Pages apex uses **A** records pointing to GitHub’s IPs:
-
-| Type | Name | Value | TTL |
-|------|------|-------|-----|
-| A | `@` | `185.199.108.153` | 600 (or default) |
-| A | `@` | `185.199.109.153` | 600 |
-| A | `@` | `185.199.110.153` | 600 |
-| A | `@` | `185.199.111.153` | 600 |
-
-Optional IPv6 (AAAA) if you use them:
-
-| Type | Name | Value |
-|------|------|-------|
-| AAAA | `@` | `2606:50c0:8000::153` |
-| AAAA | `@` | `2606:50c0:8001::153` |
-| AAAA | `@` | `2606:50c0:8002::153` |
-| AAAA | `@` | `2606:50c0:8003::153` |
-
-### www — `www.newasianpathways.org`
-
-| Type | Name | Value | TTL |
-|------|------|-------|-----|
-| CNAME | `www` | `jjonlee100.github.io` | 600 |
-
-### Important GoDaddy notes
-
-- Remove or disable **Domain Forwarding** / parked-page redirects that point elsewhere, or they will override Pages.
-- Remove old A/CNAME records that pointed at GoDaddy Website Builder or other hosts for `@` and `www`.
-- Do **not** put a CNAME on `@` at GoDaddy for the apex (use the A records above).
-- After DNS updates, wait for propagation, then confirm the custom domain in GitHub Pages and turn on **Enforce HTTPS**.
-
-Official reference: [GitHub Pages — Managing a custom domain](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site).
+Custom domain (`newasianpathways.org`) is temporarily cleared for github.io preview — do not re-add a `CNAME` file until ready.
 
 ## Local preview
-
-Open any HTML file in a browser, or from this directory:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then visit `http://localhost:8080`.
-
-## Contact
-
-The previous GoDaddy site did not publish a public contact email. The home page Contact section notes that a Formspree (or similar) backend can be added later. Giving is available via Tithely.
+Visit `http://localhost:8080`.
