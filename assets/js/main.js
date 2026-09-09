@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   var extra = document.createElement("style");
-  extra.textContent = ".focus-cards-names{align-content:center;}.focus-cards-names .focus-card{display:flex;align-items:center;justify-content:center;min-height:4.25rem;text-align:center;font:inherit;background:var(--color-surface);}.focus-cards-names .focus-card h3{margin:0;font-size:1.05rem;}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}.subscribe-form{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem;}.subscribe-form input[type=email]{flex:1 1 10rem;min-width:0;padding:.65rem .8rem;border:1px solid var(--color-border);border-radius:999px;font:inherit;}.subscribe-note{width:100%;margin:.35rem 0 0;color:var(--color-primary);font-weight:600;font-size:.9rem;}";
+  extra.textContent = ".sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}.subscribe-form{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem;}.subscribe-form input[type=email]{flex:1 1 10rem;min-width:0;padding:.65rem .8rem;border:1px solid var(--color-border);border-radius:999px;font:inherit;}.subscribe-note{width:100%;margin:.35rem 0 0;color:var(--color-primary);font-weight:600;font-size:.9rem;}.contact-email{font-weight:600;margin-bottom:1rem;}.contact-form{display:grid;gap:.65rem;text-align:left;}.contact-form input,.contact-form textarea{width:100%;padding:.7rem .85rem;border:1px solid var(--color-border);border-radius:10px;font:inherit;background:#fff;}.contact-form textarea{resize:vertical;min-height:7rem;}.contact-form .btn{justify-self:start;}";
   document.head.appendChild(extra);
 
   var toggle = document.querySelector(".nav-toggle");
@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!track) return;
       var cards = Array.prototype.slice.call(track.querySelectorAll(".card"));
       if (!cards.length) return;
-      var dots = [];
       function cardStep() {
         if (cards.length < 2) return cards[0] ? cards[0].getBoundingClientRect().width : track.clientWidth;
         return cards[1].offsetLeft - cards[0].offsetLeft;
@@ -88,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!dotsWrap) return;
         var pages = pageCount();
         dotsWrap.innerHTML = "";
-        dots = [];
+        var dots = [];
         for (var i = 0; i < pages; i++) {
           (function (page) {
             var dot = document.createElement("button");
@@ -101,12 +100,13 @@ document.addEventListener("DOMContentLoaded", function () {
             dots.push(dot);
           })(i);
         }
+        root._dots = dots;
       }
       function updateUI() {
         var idx = currentPage();
         if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
         if (nextBtn) nextBtn.disabled = atEnd();
-        dots.forEach(function (dot, i) {
+        (root._dots || []).forEach(function (dot, i) {
           var active = i === idx;
           dot.classList.toggle("is-active", active);
           dot.setAttribute("aria-selected", active ? "true" : "false");
@@ -136,47 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   initCarousels();
 
-  function initFocusMap() {
-    var map = document.querySelector(".focus-map");
-    if (!map) return;
-    function bindAll() {
-      var regions = map.querySelectorAll(".focus-region[data-region]");
-      var cards = document.querySelectorAll(".focus-card[data-region]");
-      if (!regions.length) return;
-      function setActive(id) {
-        map.classList.toggle("is-hovering", !!id);
-        regions.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
-        cards.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
-      }
-      function bind(el) {
-        var id = el.getAttribute("data-region");
-        el.addEventListener("mouseenter", function () { setActive(id); });
-        el.addEventListener("focus", function () { setActive(id); });
-        el.addEventListener("mouseleave", function () { setActive(null); });
-        el.addEventListener("blur", function () { setActive(null); });
-      }
-      regions.forEach(bind);
-      cards.forEach(bind);
-    }
-    var src = map.getAttribute("data-map-src");
-    var canvas = map.querySelector(".focus-map-canvas");
-    if (src) {
-      fetch(src).then(function (r) { return r.text(); }).then(function (t) {
-        var wrap = document.createElement("div");
-        wrap.innerHTML = t.trim();
-        var svg = wrap.querySelector("svg");
-        if (svg) {
-          if (canvas) canvas.replaceWith(svg);
-          else map.insertBefore(svg, map.firstChild);
-        }
-        bindAll();
-      }).catch(function () { bindAll(); });
-    } else {
-      bindAll();
-    }
-  }
-  initFocusMap();
-
   document.querySelectorAll("[data-subscribe]").forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -184,6 +143,21 @@ document.addEventListener("DOMContentLoaded", function () {
       var input = form.querySelector("input[type=email]");
       if (note) note.hidden = false;
       if (input) input.value = "";
+    });
+  });
+
+  document.querySelectorAll("[data-contact]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var to = form.getAttribute("data-contact-email") || "hello@newasianpathways.org";
+      var name = (form.querySelector("[name=name]") || {}).value || "";
+      var email = (form.querySelector("[name=email]") || {}).value || "";
+      var message = (form.querySelector("[name=message]") || {}).value || "";
+      var subject = encodeURIComponent("NAP website inquiry from " + name);
+      var body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message);
+      var note = form.querySelector(".subscribe-note");
+      if (note) note.hidden = false;
+      window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
     });
   });
 });
