@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("[data-contact]").forEach(function (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var to = form.getAttribute("data-contact-email") || "hello@newasianpathways.org";
+      var to = form.getAttribute("data-contact-email") || "info@newasianpathways.org";
       var name = (form.querySelector("[name=name]") || {}).value || "";
       var email = (form.querySelector("[name=email]") || {}).value || "";
       var message = (form.querySelector("[name=message]") || {}).value || "";
