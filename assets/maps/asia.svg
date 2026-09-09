@@ -1,4 +1,25 @@
-<svg viewBox="0 0 900 620" role="img" aria-label="Map of Asia" xmlns="http://www.w3.org/2000/svg">
-<style>.asia-context{fill:#c9d3cc;stroke:#fff;stroke-width:.8}.focus-region{stroke:#fff;stroke-width:.9;cursor:pointer;fill-opacity:.88}.r-east{fill:#2d5a45}.r-se{fill:#c4783a}.r-south{fill:#4a7d62}.r-central{fill:#6e8f7c}.focus-label{font:700 16px system-ui,sans-serif;fill:#143226;paint-order:stroke;stroke:#fff;stroke-width:3;pointer-events:none}.focus-region.is-active{fill-opacity:1;filter:brightness(1.08)}</style>
-<rect width="900" height="620" rx="18" fill="#e7eef2"/>
+<svg viewBox="0 0 820 560" role="img" aria-label="Map of Asia with shaded ministry regions" xmlns="http://www.w3.org/2000/svg">
+<rect width="820" height="560" rx="18" fill="#e8eef0"/>
+<g class="asia-context" fill="#d7dfd8" stroke="#b4c0b6" stroke-width="0.5">
+<path d="M60,240 C90,210 130,250 110,300 C80,330 40,310 50,270 Z"/>
+<path d="M20,40 C180,-10 420,20 620,10 C700,30 780,80 790,140 C760,90 680,50 520,55 C360,50 200,70 80,90 C40,110 20,70 20,40 Z"/>
+</g>
+<g class="focus-regions">
+<path class="focus-region r-central" data-region="central" d="M145,95 C210,70 300,75 345,115 C355,145 330,175 275,185 C210,195 155,175 140,140 C132,118 128,105 145,95 Z"/>
+<path class="focus-region r-east" data-region="east" d="M280,95 C390,55 520,70 575,120 C600,155 575,205 510,225 C430,245 340,230 300,185 C275,150 260,115 280,95 Z"/>
+<path class="focus-region r-east" data-region="east" d="M575,115 C595,105 615,125 608,155 C595,175 572,175 565,150 C562,130 568,118 575,115 Z"/>
+<path class="focus-region r-east" data-region="east" d="M630,125 C670,105 710,125 725,160 C715,195 670,205 645,185 C630,165 620,140 630,125 Z"/>
+<path class="focus-region r-east" data-region="east" d="M690,175 C710,168 725,185 718,205 C705,218 688,212 688,192 C688,182 682,178 690,175 Z"/>
+<path class="focus-region r-south" data-region="south" d="M175,165 C245,145 310,165 330,210 C340,250 315,310 270,350 C230,380 190,370 170,330 C150,280 145,200 175,165 Z"/>
+<path class="focus-region r-south" data-region="south" d="M285,365 C300,362 308,380 295,392 C280,398 270,380 285,365 Z"/>
+<path class="focus-region r-se" data-region="se" d="M330,200 C400,175 470,195 500,240 C515,275 490,310 445,325 C390,340 345,310 325,265 C318,235 318,215 330,200 Z"/>
+<path class="focus-region r-se" data-region="se" d="M430,330 C490,318 545,345 560,385 C545,415 485,420 445,400 C420,385 415,345 430,330 Z"/>
+<path class="focus-region r-se" data-region="se" d="M500,395 C560,385 620,415 640,455 C615,485 545,480 510,455 C490,440 485,405 500,395 Z"/>
+<path class="focus-region r-se" data-region="se" d="M545,255 C575,245 600,275 588,310 C568,335 538,325 532,290 C530,270 535,258 545,255 Z"/>
+</g>
+<text x="230" y="145" text-anchor="middle" class="focus-label">Central</text>
+<text x="430" y="155" text-anchor="middle" class="focus-label">East</text>
+<text x="680" y="155" text-anchor="middle" class="focus-label">Japan</text>
+<text x="250" y="255" text-anchor="middle" class="focus-label">South</text>
+<text x="430" y="265" text-anchor="middle" class="focus-label">Southeast</text>
 </svg>
