@@ -63,6 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Programs carousel (scroll-snap + controls)
+  // Dots = scroll stops (how far you can page), not one per card.
+  // With 7 cards and ~3 visible, that is 5 dots.
   function initCarousels() {
     var roots = document.querySelectorAll("[data-carousel]");
     roots.forEach(function (root) {
@@ -70,35 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
       var prevBtn = root.querySelector(".carousel-btn.prev");
       var nextBtn = root.querySelector(".carousel-btn.next");
       var dotsWrap = root.querySelector(".carousel-dots");
-      var currentEl = root.querySelector("[data-carousel-current]");
-      var totalEl = root.querySelector("[data-carousel-total]");
       if (!track) return;
 
       var cards = Array.prototype.slice.call(track.querySelectorAll(".card"));
-      var total = cards.length;
-      if (totalEl) totalEl.textContent = String(total);
-      if (!total) return;
+      if (!cards.length) return;
 
       var dots = [];
-      if (dotsWrap) {
-        dotsWrap.innerHTML = "";
-        cards.forEach(function (_card, i) {
-          var dot = document.createElement("button");
-          dot.type = "button";
-          dot.className = "carousel-dot";
-          dot.setAttribute("role", "tab");
-          dot.setAttribute("aria-label", "Go to program " + (i + 1));
-          dot.addEventListener("click", function () {
-            scrollToIndex(i);
-          });
-          dotsWrap.appendChild(dot);
-          dots.push(dot);
-        });
-      }
 
       function cardStep() {
         if (cards.length < 2) {
-          return cards[0] ? cards[0].offsetWidth : track.clientWidth;
+          return cards[0] ? cards[0].getBoundingClientRect().width : track.clientWidth;
         }
         return cards[1].offsetLeft - cards[0].offsetLeft;
       }
@@ -107,60 +90,90 @@ document.addEventListener("DOMContentLoaded", function () {
         return Math.max(0, track.scrollWidth - track.clientWidth);
       }
 
-      function currentIndex() {
+      function pageCount() {
         var step = cardStep();
-        if (step <= 0) return 0;
-        return Math.max(0, Math.min(total - 1, Math.round(track.scrollLeft / step)));
+        if (step <= 0) return 1;
+        var max = maxScrollLeft();
+        if (max <= 2) return 1;
+        return Math.max(1, Math.round(max / step) + 1);
+      }
+
+      function currentPage() {
+        var pages = pageCount();
+        var step = cardStep();
+        if (step <= 0 || pages <= 1) return 0;
+        var idx = Math.round(track.scrollLeft / step);
+        return Math.max(0, Math.min(pages - 1, idx));
       }
 
       function atEnd() {
         return track.scrollLeft >= maxScrollLeft() - 2;
       }
 
-      function scrollToIndex(i) {
+      function scrollToPage(i) {
+        var pages = pageCount();
         var step = cardStep();
-        var target = Math.max(0, Math.min(i, total - 1));
+        var target = Math.max(0, Math.min(i, pages - 1));
         var left = Math.min(target * step, maxScrollLeft());
         track.scrollTo({ left: left, behavior: "smooth" });
       }
 
+      function rebuildDots() {
+        if (!dotsWrap) return;
+        var pages = pageCount();
+        dotsWrap.innerHTML = "";
+        dots = [];
+        for (var i = 0; i < pages; i++) {
+          (function (page) {
+            var dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "carousel-dot";
+            dot.setAttribute("role", "tab");
+            dot.setAttribute("aria-label", "Go to slide " + (page + 1));
+            dot.addEventListener("click", function () {
+              scrollToPage(page);
+            });
+            dotsWrap.appendChild(dot);
+            dots.push(dot);
+          })(i);
+        }
+      }
+
       function updateUI() {
-        var idx = currentIndex();
-        if (currentEl) currentEl.textContent = String(idx + 1);
+        var idx = currentPage();
         if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
         if (nextBtn) nextBtn.disabled = atEnd();
         dots.forEach(function (dot, i) {
           var active = i === idx;
           dot.classList.toggle("is-active", active);
           dot.setAttribute("aria-selected", active ? "true" : "false");
-          dot.hidden = false;
         });
       }
 
       if (prevBtn) {
         prevBtn.addEventListener("click", function () {
-          scrollToIndex(currentIndex() - 1);
+          scrollToPage(currentPage() - 1);
         });
       }
       if (nextBtn) {
         nextBtn.addEventListener("click", function () {
-          scrollToIndex(currentIndex() + 1);
+          scrollToPage(currentPage() + 1);
         });
       }
 
       track.addEventListener("keydown", function (e) {
         if (e.key === "ArrowLeft") {
           e.preventDefault();
-          scrollToIndex(currentIndex() - 1);
+          scrollToPage(currentPage() - 1);
         } else if (e.key === "ArrowRight") {
           e.preventDefault();
-          scrollToIndex(currentIndex() + 1);
+          scrollToPage(currentPage() + 1);
         } else if (e.key === "Home") {
           e.preventDefault();
-          scrollToIndex(0);
+          scrollToPage(0);
         } else if (e.key === "End") {
           e.preventDefault();
-          scrollToIndex(total - 1);
+          scrollToPage(pageCount() - 1);
         }
       });
 
@@ -174,10 +187,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }, { passive: true });
 
+      var resizeTimer;
       window.addEventListener("resize", function () {
-        updateUI();
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          rebuildDots();
+          updateUI();
+        }, 120);
       });
 
+      rebuildDots();
       updateUI();
     });
   }
