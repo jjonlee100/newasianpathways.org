@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function normalizePagePath(pathname, base) {
     var rel = pathname;
     if (base !== "/" && rel.indexOf(base) === 0) {
-      rel = rel.slice(base.length - 1); // keep leading /
+      rel = rel.slice(base.length - 1);
     }
     rel = rel.replace(/^\/+/, "");
     rel = stripLangPrefix(rel);
@@ -61,10 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
-  // Programs carousel (scroll-snap + controls)
-  // Dots = scroll stops (how far you can page), not one per card.
-  // With 7 cards and ~3 visible, that is 5 dots.
   function initCarousels() {
     var roots = document.querySelectorAll("[data-carousel]");
     roots.forEach(function (root) {
@@ -203,5 +199,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
   initCarousels();
 
-  // Soft preference removed: it fought manual language switching on GitHub Pages.
+  function initFocusMap() {
+    var map = document.querySelector(".focus-map");
+    if (!map) return;
+    var regions = map.querySelectorAll(".focus-region[data-region]");
+    var cards = document.querySelectorAll(".focus-card[data-region]");
+    if (!regions.length) return;
+
+    function setActive(id) {
+      map.classList.toggle("is-hovering", !!id);
+      regions.forEach(function (el) {
+        el.classList.toggle("is-active", el.getAttribute("data-region") === id);
+      });
+      cards.forEach(function (el) {
+        el.classList.toggle("is-active", el.getAttribute("data-region") === id);
+      });
+    }
+
+    function bind(el) {
+      var id = el.getAttribute("data-region");
+      el.addEventListener("mouseenter", function () { setActive(id); });
+      el.addEventListener("focus", function () { setActive(id); });
+      el.addEventListener("mouseleave", function () { setActive(null); });
+      el.addEventListener("blur", function () { setActive(null); });
+    }
+
+    regions.forEach(bind);
+    cards.forEach(bind);
+  }
+
+  initFocusMap();
 });
