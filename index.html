@@ -101,53 +101,8 @@
         <p>Shaded areas show where we walk with local partners. We name regions, not towns or ministry addresses.</p>
       </div>
       <div class="focus-layout">
-        <div class="focus-map">
-          <svg viewBox="0 0 720 520" role="img" aria-label="Map of Asia with shaded ministry regions" xmlns="http://www.w3.org/2000/svg">
-            <rect width="720" height="520" rx="18" fill="#e8eef0"/>
-            <!-- Geographic Asia outline -->
-            <g class="asia-land" fill="#c5d0c8" stroke="#9aab9f" stroke-width="1.25">
-              <!-- Siberia / mainland mass -->
-              <path d="M92 228 L78 198 C86 150 140 112 198 98 C250 78 330 72 410 88 C470 78 530 92 568 128 L552 148 C520 122 470 112 430 122 C390 96 320 92 260 108 C210 118 160 148 148 188 C132 206 108 216 92 228 Z"/>
-              <!-- China / Mongolia core -->
-              <path d="M250 118 C320 92 410 96 478 128 C520 148 548 188 532 228 C512 262 460 278 410 268 C360 278 300 258 268 222 C246 190 232 148 250 118 Z"/>
-              <!-- Korean peninsula -->
-              <path d="M532 168 C548 162 560 176 556 196 C548 214 532 220 522 208 C516 190 520 174 532 168 Z"/>
-              <!-- Japan -->
-              <path d="M572 148 C592 136 612 150 608 172 C598 196 576 206 562 190 C556 172 560 154 572 148 Z"/>
-              <path d="M588 198 C600 194 608 206 602 218 C592 226 578 220 580 206 C582 200 584 198 588 198 Z"/>
-              <!-- Central Asia steppe -->
-              <path d="M168 128 C220 108 280 118 318 150 C332 172 318 198 284 208 C236 220 180 208 158 176 C150 156 152 138 168 128 Z"/>
-              <!-- South Asia / India -->
-              <path d="M168 214 C214 196 268 204 292 236 C306 262 292 304 258 338 C230 366 198 372 176 348 C154 322 148 268 168 214 Z"/>
-              <path d="M214 348 C226 346 232 358 224 366 C214 370 204 360 214 348 Z"/>
-              <!-- Southeast Asia mainland -->
-              <path d="M318 236 C372 214 430 228 456 268 C468 292 454 318 422 328 C390 338 348 322 328 292 C316 268 308 248 318 236 Z"/>
-              <!-- Malay / Sumatra / Java -->
-              <path d="M360 338 C400 328 438 344 452 372 C442 392 400 398 368 384 C348 372 346 350 360 338 Z"/>
-              <path d="M400 392 C448 384 492 400 508 428 C488 444 440 440 412 422 C396 410 392 396 400 392 Z"/>
-              <!-- Philippines -->
-              <path d="M488 292 C508 284 522 304 514 326 C500 344 478 338 476 314 C476 300 480 294 488 292 Z"/>
-              <!-- Arabian fringe left unshaded -->
-              <path d="M70 230 C96 218 118 232 126 258 C118 286 90 298 72 278 C60 258 58 240 70 230 Z"/>
-            </g>
-            <g class="focus-regions">
-              <path class="focus-region r-central" data-region="central" d="M168 128 C220 108 280 118 318 150 C332 172 318 198 284 208 C236 220 180 208 158 176 C150 156 152 138 168 128 Z"/>
-              <path class="focus-region r-east" data-region="east" d="M250 118 C320 92 410 96 478 128 C520 148 548 188 532 228 C512 262 460 278 410 268 C360 278 300 258 268 222 C246 190 232 148 250 118 Z"/>
-              <path class="focus-region r-east" data-region="east" d="M532 168 C548 162 560 176 556 196 C548 214 532 220 522 208 C516 190 520 174 532 168 Z"/>
-              <path class="focus-region r-east" data-region="east" d="M572 148 C592 136 612 150 608 172 C598 196 576 206 562 190 C556 172 560 154 572 148 Z"/>
-              <path class="focus-region r-east" data-region="east" d="M588 198 C600 194 608 206 602 218 C592 226 578 220 580 206 C582 200 584 198 588 198 Z"/>
-              <path class="focus-region r-south" data-region="south" d="M168 214 C214 196 268 204 292 236 C306 262 292 304 258 338 C230 366 198 372 176 348 C154 322 148 268 168 214 Z"/>
-              <path class="focus-region r-se" data-region="se" d="M318 236 C372 214 430 228 456 268 C468 292 454 318 422 328 C390 338 348 322 328 292 C316 268 308 248 318 236 Z"/>
-              <path class="focus-region r-se" data-region="se" d="M360 338 C400 328 438 344 452 372 C442 392 400 398 368 384 C348 372 346 350 360 338 Z"/>
-              <path class="focus-region r-se" data-region="se" d="M400 392 C448 384 492 400 508 428 C488 444 440 440 412 422 C396 410 392 396 400 392 Z"/>
-              <path class="focus-region r-se" data-region="se" d="M488 292 C508 284 522 304 514 326 C500 344 478 338 476 314 C476 300 480 294 488 292 Z"/>
-            </g>
-            <text x="236" y="168" text-anchor="middle" class="focus-label">Central</text>
-            <text x="400" y="188" text-anchor="middle" class="focus-label">East</text>
-            <text x="588" y="168" text-anchor="middle" class="focus-label">Japan</text>
-            <text x="228" y="286" text-anchor="middle" class="focus-label">South</text>
-            <text x="390" y="286" text-anchor="middle" class="focus-label">Southeast</text>
-          </svg>
+        <div class="focus-map" data-map-src="assets/maps/asia.svg">
+          <div class="focus-map-canvas"></div>
           <p class="focus-map-caption">Hover a region or a name to highlight it.</p>
         </div>
         <div class="focus-cards focus-cards-names">

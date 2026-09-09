@@ -300,15 +300,15 @@ section { padding: 3.5rem 0; }
 .focus-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 2rem; align-items: center; }
 .focus-map svg { width: 100%; height: auto; display: block; border-radius: var(--radius); box-shadow: var(--shadow); }
 .asia-land { fill: #cfd8d2; stroke: #b7c4bc; stroke-width: 1.2; }
-.focus-region { fill-opacity: 0.58; stroke: #fff; stroke-width: 2; cursor: pointer; transition: fill-opacity 0.18s, filter 0.18s; }
+.focus-region { fill-opacity: 0.86; stroke: #2c463c; stroke-width: 0.5; cursor: pointer; transition: fill-opacity 0.18s, filter 0.18s; }
 .focus-region.r-east { fill: #2d5a45; }
 .focus-region.r-se { fill: #c4783a; }
 .focus-region.r-south { fill: #4a7d62; }
 .focus-region.r-central { fill: #6e8f7c; }
-.focus-map.is-hovering .focus-region { fill-opacity: 0.28; }
+.focus-map.is-hovering .focus-region { fill-opacity: 0.38; }
 .focus-map .focus-region.is-active,
-.focus-region:hover { fill-opacity: 0.82; filter: brightness(1.05); }
-.focus-label { font-size: 15px; font-weight: 700; fill: #143226; paint-order: stroke; stroke: rgba(255,255,255,0.75); stroke-width: 3px; font-family: system-ui, sans-serif; pointer-events: none; }
+.focus-region:hover { fill-opacity: 1; filter: brightness(1.06); }
+.focus-label { font-size: 18px; font-weight: 700; fill: #143226; paint-order: stroke; stroke: rgba(255,255,255,0.75); stroke-width: 3px; font-family: system-ui, sans-serif; pointer-events: none; }
 .focus-map-caption { margin: 0.7rem 0 0; font-size: 0.85rem; color: var(--color-muted); text-align: center; }
 .focus-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .focus-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.15rem 1.2rem; box-shadow: var(--shadow); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
@@ -320,6 +320,7 @@ section { padding: 3.5rem 0; }
 .focus-card[data-region="se"].is-active { border-color: #c4783a; }
 .focus-card[data-region="south"].is-active { border-color: #4a7d62; }
 .focus-card[data-region="central"].is-active { border-color: #6e8f7c; }
+.asia-context { pointer-events: none; }
 @media (max-width: 860px) {
   .focus-layout { grid-template-columns: 1fr; }
   .focus-cards { grid-template-columns: 1fr 1fr; }

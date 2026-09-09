@@ -139,23 +139,41 @@ document.addEventListener("DOMContentLoaded", function () {
   function initFocusMap() {
     var map = document.querySelector(".focus-map");
     if (!map) return;
-    var regions = map.querySelectorAll(".focus-region[data-region]");
-    var cards = document.querySelectorAll(".focus-card[data-region]");
-    if (!regions.length) return;
-    function setActive(id) {
-      map.classList.toggle("is-hovering", !!id);
-      regions.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
-      cards.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
+    function bindAll() {
+      var regions = map.querySelectorAll(".focus-region[data-region]");
+      var cards = document.querySelectorAll(".focus-card[data-region]");
+      if (!regions.length) return;
+      function setActive(id) {
+        map.classList.toggle("is-hovering", !!id);
+        regions.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
+        cards.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
+      }
+      function bind(el) {
+        var id = el.getAttribute("data-region");
+        el.addEventListener("mouseenter", function () { setActive(id); });
+        el.addEventListener("focus", function () { setActive(id); });
+        el.addEventListener("mouseleave", function () { setActive(null); });
+        el.addEventListener("blur", function () { setActive(null); });
+      }
+      regions.forEach(bind);
+      cards.forEach(bind);
     }
-    function bind(el) {
-      var id = el.getAttribute("data-region");
-      el.addEventListener("mouseenter", function () { setActive(id); });
-      el.addEventListener("focus", function () { setActive(id); });
-      el.addEventListener("mouseleave", function () { setActive(null); });
-      el.addEventListener("blur", function () { setActive(null); });
+    var src = map.getAttribute("data-map-src");
+    var canvas = map.querySelector(".focus-map-canvas");
+    if (src) {
+      fetch(src).then(function (r) { return r.text(); }).then(function (t) {
+        var wrap = document.createElement("div");
+        wrap.innerHTML = t.trim();
+        var svg = wrap.querySelector("svg");
+        if (svg) {
+          if (canvas) canvas.replaceWith(svg);
+          else map.insertBefore(svg, map.firstChild);
+        }
+        bindAll();
+      }).catch(function () { bindAll(); });
+    } else {
+      bindAll();
     }
-    regions.forEach(bind);
-    cards.forEach(bind);
   }
   initFocusMap();
 
