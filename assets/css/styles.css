@@ -683,3 +683,68 @@ section { padding: 3.5rem 0; }
     margin-left: auto;
   }
 }
+
+
+/* Where we focus */
+.focus-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+.focus-map svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.focus-region {
+  opacity: 0.72;
+  stroke: #fff;
+  stroke-width: 2;
+}
+.focus-region.r-east { fill: #2d5a45; }
+.focus-region.r-se { fill: #c4783a; }
+.focus-region.r-south { fill: #3f6f56; }
+.focus-region.r-central { fill: #8aa896; }
+.focus-label {
+  font-size: 13px;
+  font-weight: 700;
+  fill: #fff;
+  font-family: system-ui, sans-serif;
+}
+.focus-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.focus-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.2rem;
+  box-shadow: var(--shadow);
+}
+.focus-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+.focus-card p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+@media (max-width: 860px) {
+  .focus-layout {
+    grid-template-columns: 1fr;
+  }
+  .focus-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .focus-cards {
+    grid-template-columns: 1fr;
+  }
+}
