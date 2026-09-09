@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var extra = document.createElement("style");
+  extra.textContent = ".focus-cards-names{align-content:center;}.focus-cards-names .focus-card{display:flex;align-items:center;justify-content:center;min-height:4.25rem;text-align:center;font:inherit;background:var(--color-surface);}.focus-cards-names .focus-card h3{margin:0;font-size:1.05rem;}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}.subscribe-form{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem;}.subscribe-form input[type=email]{flex:1 1 10rem;min-width:0;padding:.65rem .8rem;border:1px solid var(--color-border);border-radius:999px;font:inherit;}.subscribe-note{width:100%;margin:.35rem 0 0;color:var(--color-primary);font-weight:600;font-size:.9rem;}";
+  document.head.appendChild(extra);
+
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".nav");
   if (toggle && nav) {
@@ -9,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var LANG_KEY = "nap-lang";
-
   function getSiteBase() {
     var host = window.location.hostname || "";
     var path = window.location.pathname || "/";
@@ -19,32 +22,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "/";
   }
-
-  function stripLangPrefix(relPath) {
-    return relPath.replace(/^(ko|zh)\//, "");
-  }
-
+  function stripLangPrefix(relPath) { return relPath.replace(/^(ko|zh)\//, ""); }
   function normalizePagePath(pathname, base) {
     var rel = pathname;
-    if (base !== "/" && rel.indexOf(base) === 0) {
-      rel = rel.slice(base.length - 1);
-    }
+    if (base !== "/" && rel.indexOf(base) === 0) rel = rel.slice(base.length - 1);
     rel = rel.replace(/^\/+/, "");
     rel = stripLangPrefix(rel);
-    if (!rel || rel === "index.html") {
-      return "";
-    }
+    if (!rel || rel === "index.html") return "";
     return rel;
   }
-
   function urlForLang(lang, pagePath, base) {
     var prefix = lang === "en" ? "" : lang + "/";
-    if (!pagePath) {
-      return base + prefix;
-    }
-    return base + prefix + pagePath;
+    return !pagePath ? base + prefix : base + prefix + pagePath;
   }
-
   var base = getSiteBase();
   var switcher = document.querySelector(".lang-switcher");
   if (switcher) {
@@ -52,11 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
       link.addEventListener("click", function (e) {
         e.preventDefault();
         var lang = link.getAttribute("data-lang") || "en";
-        try {
-          localStorage.setItem(LANG_KEY, lang);
-        } catch (err) { /* private mode */ }
-        var pagePath = normalizePagePath(window.location.pathname || "/", base);
-        window.location.assign(urlForLang(lang, pagePath, base));
+        try { localStorage.setItem(LANG_KEY, lang); } catch (err) {}
+        window.location.assign(urlForLang(lang, normalizePagePath(window.location.pathname || "/", base), base));
       });
     });
   }
@@ -69,23 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
       var nextBtn = root.querySelector(".carousel-btn.next");
       var dotsWrap = root.querySelector(".carousel-dots");
       if (!track) return;
-
       var cards = Array.prototype.slice.call(track.querySelectorAll(".card"));
       if (!cards.length) return;
-
       var dots = [];
-
       function cardStep() {
-        if (cards.length < 2) {
-          return cards[0] ? cards[0].getBoundingClientRect().width : track.clientWidth;
-        }
+        if (cards.length < 2) return cards[0] ? cards[0].getBoundingClientRect().width : track.clientWidth;
         return cards[1].offsetLeft - cards[0].offsetLeft;
       }
-
-      function maxScrollLeft() {
-        return Math.max(0, track.scrollWidth - track.clientWidth);
-      }
-
+      function maxScrollLeft() { return Math.max(0, track.scrollWidth - track.clientWidth); }
       function pageCount() {
         var step = cardStep();
         if (step <= 0) return 1;
@@ -93,27 +71,19 @@ document.addEventListener("DOMContentLoaded", function () {
         if (max <= 2) return 1;
         return Math.max(1, Math.round(max / step) + 1);
       }
-
       function currentPage() {
         var pages = pageCount();
         var step = cardStep();
         if (step <= 0 || pages <= 1) return 0;
-        var idx = Math.round(track.scrollLeft / step);
-        return Math.max(0, Math.min(pages - 1, idx));
+        return Math.max(0, Math.min(pages - 1, Math.round(track.scrollLeft / step)));
       }
-
-      function atEnd() {
-        return track.scrollLeft >= maxScrollLeft() - 2;
-      }
-
+      function atEnd() { return track.scrollLeft >= maxScrollLeft() - 2; }
       function scrollToPage(i) {
         var pages = pageCount();
         var step = cardStep();
         var target = Math.max(0, Math.min(i, pages - 1));
-        var left = Math.min(target * step, maxScrollLeft());
-        track.scrollTo({ left: left, behavior: "smooth" });
+        track.scrollTo({ left: Math.min(target * step, maxScrollLeft()), behavior: "smooth" });
       }
-
       function rebuildDots() {
         if (!dotsWrap) return;
         var pages = pageCount();
@@ -126,15 +96,12 @@ document.addEventListener("DOMContentLoaded", function () {
             dot.className = "carousel-dot";
             dot.setAttribute("role", "tab");
             dot.setAttribute("aria-label", "Go to slide " + (page + 1));
-            dot.addEventListener("click", function () {
-              scrollToPage(page);
-            });
+            dot.addEventListener("click", function () { scrollToPage(page); });
             dotsWrap.appendChild(dot);
             dots.push(dot);
           })(i);
         }
       }
-
       function updateUI() {
         var idx = currentPage();
         if (prevBtn) prevBtn.disabled = track.scrollLeft <= 2;
@@ -145,58 +112,28 @@ document.addEventListener("DOMContentLoaded", function () {
           dot.setAttribute("aria-selected", active ? "true" : "false");
         });
       }
-
-      if (prevBtn) {
-        prevBtn.addEventListener("click", function () {
-          scrollToPage(currentPage() - 1);
-        });
-      }
-      if (nextBtn) {
-        nextBtn.addEventListener("click", function () {
-          scrollToPage(currentPage() + 1);
-        });
-      }
-
+      if (prevBtn) prevBtn.addEventListener("click", function () { scrollToPage(currentPage() - 1); });
+      if (nextBtn) nextBtn.addEventListener("click", function () { scrollToPage(currentPage() + 1); });
       track.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          scrollToPage(currentPage() - 1);
-        } else if (e.key === "ArrowRight") {
-          e.preventDefault();
-          scrollToPage(currentPage() + 1);
-        } else if (e.key === "Home") {
-          e.preventDefault();
-          scrollToPage(0);
-        } else if (e.key === "End") {
-          e.preventDefault();
-          scrollToPage(pageCount() - 1);
-        }
+        if (e.key === "ArrowLeft") { e.preventDefault(); scrollToPage(currentPage() - 1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); scrollToPage(currentPage() + 1); }
+        else if (e.key === "Home") { e.preventDefault(); scrollToPage(0); }
+        else if (e.key === "End") { e.preventDefault(); scrollToPage(pageCount() - 1); }
       });
-
       var ticking = false;
       track.addEventListener("scroll", function () {
         if (ticking) return;
         ticking = true;
-        window.requestAnimationFrame(function () {
-          updateUI();
-          ticking = false;
-        });
+        window.requestAnimationFrame(function () { updateUI(); ticking = false; });
       }, { passive: true });
-
-      var resizeTimer;
       window.addEventListener("resize", function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-          rebuildDots();
-          updateUI();
-        }, 120);
+        rebuildDots();
+        updateUI();
       });
-
       rebuildDots();
       updateUI();
     });
   }
-
   initCarousels();
 
   function initFocusMap() {
@@ -205,17 +142,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var regions = map.querySelectorAll(".focus-region[data-region]");
     var cards = document.querySelectorAll(".focus-card[data-region]");
     if (!regions.length) return;
-
     function setActive(id) {
       map.classList.toggle("is-hovering", !!id);
-      regions.forEach(function (el) {
-        el.classList.toggle("is-active", el.getAttribute("data-region") === id);
-      });
-      cards.forEach(function (el) {
-        el.classList.toggle("is-active", el.getAttribute("data-region") === id);
-      });
+      regions.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
+      cards.forEach(function (el) { el.classList.toggle("is-active", el.getAttribute("data-region") === id); });
     }
-
     function bind(el) {
       var id = el.getAttribute("data-region");
       el.addEventListener("mouseenter", function () { setActive(id); });
@@ -223,10 +154,18 @@ document.addEventListener("DOMContentLoaded", function () {
       el.addEventListener("mouseleave", function () { setActive(null); });
       el.addEventListener("blur", function () { setActive(null); });
     }
-
     regions.forEach(bind);
     cards.forEach(bind);
   }
-
   initFocusMap();
+
+  document.querySelectorAll("[data-subscribe]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var note = form.querySelector(".subscribe-note");
+      var input = form.querySelector("input[type=email]");
+      if (note) note.hidden = false;
+      if (input) input.value = "";
+    });
+  });
 });
