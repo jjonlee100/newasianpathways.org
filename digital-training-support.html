@@ -145,8 +145,6 @@
   </footer>
   <script src="assets/js/main.js"></script>
 
-<!-- GoDaddy Conversations chat widget -->
-<script type="text/javascript" async src="https://cdn.reamaze.com/assets/reamaze-loader.js"></script>
 <script type="text/javascript">
   var _support = _support || { 'ui': {}, 'user': {} };
   _support['account'] = 'c827e9d8-23de-478a-95a8-171182d5b016';
@@ -177,5 +175,39 @@
   };
 </script>
 
+<!-- GoDaddy Conversations chat widget -->
+<script type="text/javascript" async src="https://cdn.reamaze.com/assets/reamaze-loader.js"></script>
+<script type="text/javascript">
+  var _support = _support || { 'ui': {}, 'user': {} };
+  _support['account'] = 'c827e9d8-23de-478a-95a8-171182d5b016';
+  _support['ui']['contactMode'] = 'mixed';
+  _support['ui']['enableKb'] = 'true';
+  _support['ui']['mailbox'] = '56060700';
+  _support['ui']['styles'] = {
+    widgetColor: 'rgba(16, 162, 197, 1)',
+    gradient: true,
+  };
+  _support['ui']['shoutboxFacesMode'] = '';
+  _support['ui']['widget'] = {
+    allowBotProcessing: 'true',
+    slug: 'https-slash-slash-jjonlee100-dot-github-dot-io-slash-newasianpathways-dot-org-slash',
+    label: {
+      text: 'Hello!\nHow can we assist you today?',
+      mode: "notification",
+      delay: 3,
+      duration: 30,
+      primary: '',
+      secondary: 'Thank you for reaching out!',
+      sound: true,
+    },
+    position: 'bottom-right'
+  };
+  _support['ui']['overrides'] = _support['ui']['overrides'] || {};
+  _support['ui']['overrides']['confirmationMessage'] = '';
+  _support['apps'] = {
+    recentConversations: {},
+    faq: {"enabled":true}
+  };
+</script>
 </body>
 </html>
