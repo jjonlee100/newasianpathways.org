@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message);
       var note = form.querySelector(".subscribe-note");
       if (note) note.hidden = false;
-      window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
+      
     });
   });
 });
