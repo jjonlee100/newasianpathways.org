@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter - New Asian Pathways</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .gate { max-width: 28rem; margin: 4rem auto; text-align: center; }
+    .gate input { width: 100%; padding: .7rem .85rem; border: 1px solid var(--color-border); border-radius: 10px; font: inherit; margin: .5rem 0 1rem; }
+    .newsletter-content { display: none; max-width: 48rem; margin: 2rem auto; }
+    .newsletter-content.is-open { display: block; }
+    .issue { background: #fff; border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">New Asian Pathways</a>
+      <nav class="lang-switcher" aria-label="Language">
+        <a href="newsletter.html" class="is-active">EN</a>
+        <a href="ko/newsletter.html">한국어</a>
+        <a href="zh/newsletter.html">中文</a>
+      </nav>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">Menu</button>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="index.html#focus">Where We Focus</a>
+        <a href="index.html#programs">Programs</a>
+        <a href="newsletter.html" class="is-active">Newsletter</a>
+        <a href="index.html#contact">Contact</a>
+        <a class="btn btn-primary" href="https://give.tithe.ly/?formId=4e3604e2-ff67-4aeb-99ef-311428aea7fa" target="_blank" rel="noopener">Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="gate" id="gate">
+      <p class="eyebrow">Members only</p>
+      <h1>Newsletter</h1>
+      <p>This area is for partners who have requested access. Enter the code we sent you.</p>
+      <form id="code-form">
+        <label class="sr-only" for="code">Access code</label>
+        <input id="code" type="password" placeholder="Enter access code" required autocomplete="off">
+        <button class="btn btn-primary" type="submit">Enter</button>
+      </form>
+      <p id="code-error" class="subscribe-note" hidden>That code is not correct. Please check the code we sent you or contact us.</p>
+    </div>
+
+    <div class="newsletter-content" id="content">
+      <p class="eyebrow">Partners</p>
+      <h1>Newsletter</h1>
+      <p>Thank you for walking with us. New issues will appear here.</p>
+      <div class="issue">
+        <h2>Latest issue</h2>
+        <p>No issue has been posted yet. When the next newsletter is ready, it will show here for those with the access code.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    (function () {
+      var CODE = "NAP2026";
+      var gate = document.getElementById("gate");
+      var content = document.getElementById("content");
+      var form = document.getElementById("code-form");
+      var error = document.getElementById("code-error");
+      var key = "nap-newsletter-ok";
+
+      function open() {
+        gate.style.display = "none";
+        content.classList.add("is-open");
+        try { sessionStorage.setItem(key, "1"); } catch (e) {}
+      }
+
+      if (sessionStorage.getItem(key) === "1") open();
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var val = (document.getElementById("code").value || "").trim();
+        if (val === CODE) {
+          error.hidden = true;
+          open();
+        } else {
+          error.hidden = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
