@@ -161,3 +161,35 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+  document.querySelectorAll("form[data-ajax-form]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var btn = form.querySelector("button[type=submit]");
+      var note = form.querySelector(".subscribe-note");
+      if (btn) btn.disabled = true;
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      }).then(function (res) {
+        if (res.ok) {
+          form.reset();
+          if (note) note.hidden = false;
+        } else {
+          if (note) {
+            note.hidden = false;
+            note.textContent = "Something went wrong. Please try again or email us directly.";
+          }
+        }
+      }).catch(function () {
+        if (note) {
+          note.hidden = false;
+          note.textContent = "Something went wrong. Please try again or email us directly.";
+        }
+      }).finally(function () {
+        if (btn) btn.disabled = false;
+      });
+    });
+  });
+
