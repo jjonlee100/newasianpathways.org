@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="notranslate" translate="no" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Newsletter - New Asian Pathways</title>
   <link rel="stylesheet" href="assets/css/styles.css">
+  
   <style>
     .gate { max-width: 28rem; margin: 4rem auto; text-align: center; }
     .gate input { width: 100%; padding: .7rem .85rem; border: 1px solid var(--color-border); border-radius: 10px; font: inherit; margin: .5rem 0 1rem; }
@@ -12,29 +14,32 @@
     .newsletter-content.is-open { display: block; }
     .issue { background: #fff; border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
   </style>
+
 </head>
-<body>
+<body class="notranslate" data-page="newsletter" data-base="">
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">New Asian Pathways</a>
-      <nav class="lang-switcher" aria-label="Language">
-        <a href="newsletter.html" class="is-active">EN</a>
-        <a href="ko/newsletter.html">한국어</a>
-        <a href="zh/newsletter.html">中文</a>
-      </nav>
-      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">Menu</button>
+      <a class="logo" href="index.html">New Asian <span>Pathways</span></a>
+      <div class="header-tools">
+        <nav class="lang-switcher" aria-label="Language">
+          <a href="newsletter.html" hreflang="en" data-lang="en" aria-current="true">EN</a>
+          <a href="ko/newsletter.html" hreflang="ko" data-lang="ko">한국어</a>
+          <a href="zh/newsletter.html" hreflang="zh-Hans" data-lang="zh">中文</a>
+        </nav>
+        <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">Menu</button>
+      </div>
       <nav class="nav" aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-        <a href="index.html#focus">Where We Focus</a>
+        <a href="index.html#focus">Focus</a>
         <a href="index.html#programs">Programs</a>
-        <a href="newsletter.html" class="is-active">Newsletter</a>
+        <a href="index.html#help">How to Help</a>
+        <a href="newsletter.html" aria-current="page">Newsletter</a>
         <a href="index.html#contact">Contact</a>
         <a class="btn btn-primary" href="https://give.tithe.ly/?formId=4e3604e2-ff67-4aeb-99ef-311428aea7fa" target="_blank" rel="noopener">Donate</a>
       </nav>
     </div>
   </header>
-
   <main class="container">
     <div class="gate" id="gate">
       <p class="eyebrow">Members only</p>
@@ -47,7 +52,6 @@
       </form>
       <p id="code-error" class="subscribe-note" hidden>That code is not correct. Please check the code we sent you or contact us.</p>
     </div>
-
     <div class="newsletter-content" id="content">
       <p class="eyebrow">Partners</p>
       <h1>Newsletter</h1>
@@ -58,8 +62,8 @@
       </div>
     </div>
   </main>
-
   <script src="assets/js/main.js"></script>
+  
   <script>
     (function () {
       var CODE = "NAP2026";
@@ -68,26 +72,20 @@
       var form = document.getElementById("code-form");
       var error = document.getElementById("code-error");
       var key = "nap-newsletter-ok";
-
       function open() {
         gate.style.display = "none";
         content.classList.add("is-open");
         try { sessionStorage.setItem(key, "1"); } catch (e) {}
       }
-
       if (sessionStorage.getItem(key) === "1") open();
-
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var val = (document.getElementById("code").value || "").trim();
-        if (val === CODE) {
-          error.hidden = true;
-          open();
-        } else {
-          error.hidden = false;
-        }
+        if (val === CODE) { error.hidden = true; open(); }
+        else { error.hidden = false; }
       });
     })();
   </script>
+
 </body>
 </html>
