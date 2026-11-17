@@ -133,11 +133,12 @@
         <div class="help-card" id="subscribe">
           <h3>Subscribe</h3>
           <p>Join the newsletter for stories, prayer notes, and ways to walk with local leaders.</p>
-          <form class="subscribe-form" data-subscribe>
+          <form class="subscribe-form" action="https://formspree.io/f/mgakkwjd" method="POST" data-ajax-form>
             <label class="sr-only" for="subscribe-email">Email</label>
             <input id="subscribe-email" name="email" type="email" required placeholder="Your email" autocomplete="email">
+            <input type="hidden" name="_subject" value="Newsletter access request">
             <button class="btn btn-primary" type="submit">Subscribe</button>
-            <p class="subscribe-note" hidden>Thank you. We will add you when the newsletter list goes live.</p>
+            <p class="subscribe-note" hidden>Thank you. We received your request and will reply if access is approved.</p>
           </form>
         </div>
         <div class="help-card"><h3>Give</h3><p>Your gift through Tithely backs training, care, and practical help for indigenous partners.</p><a class="btn btn-primary" href="https://give.tithe.ly/?formId=4e3604e2-ff67-4aeb-99ef-311428aea7fa" target="_blank" rel="noopener">Donate</a></div>
